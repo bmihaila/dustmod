@@ -1,6 +1,6 @@
 # dustmod zsh theme
 
-Started with fixes, improvements and modifications to the nice and clean [**dst** theme](https://github.com/robbyrussell/oh-my-zsh/blob/master/themes/dst.zsh-theme). In the end it became yet another fully featured zsh theme.
+Started with fixes, improvements and modifications to the simple and clean [dst](https://github.com/robbyrussell/oh-my-zsh/blob/master/themes/dst.zsh-theme) theme. In the end it became yet another fully featured zsh theme. Still striving for cleanliness, though!
 
 Features are:
 - the usual username, host, current directory in prompt
@@ -15,12 +15,14 @@ Features are:
 *TODO*: add screenshots
 
 ## Requirements
-Needs **Python** installed to translate the return error codes
+- Zsh - see [zsh.org](http://www.zsh.org/)
+- a Zsh framework like [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh), [antigen](https://github.com/zsh-users/antigen), [zplug](https://github.com/zplug/zplug) or [zgen](https://github.com/tarjoilija/zgen)
+- needs [Python](https://www.python.org/) installed to translate the return error codes
 
 ## Installation
-Add the following line to your .zshrc depending on your zsh plugin manager
+Add the following line to your `.zshrc` file depending on your zsh plugin manager:
 
-- [oh-my-zsh: adding themes](https://github.com/robbyrussell/oh-my-zsh/wiki/Customization#overriding-and-adding-themes)
+- [oh-my-zsh - adding themes howto](https://github.com/robbyrussell/oh-my-zsh/wiki/Customization#overriding-and-adding-themes)
 
     ZSH_THEME="dustmod"
 
