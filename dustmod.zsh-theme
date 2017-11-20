@@ -14,7 +14,7 @@ ZSH_THEME_GIT_PROMPT_SUFFIX="%b%{$reset_color%}):"
 ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[red]%}*"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
-GIT_STATUS_SYMBOLS_ONLY="true"
+GIT_STATUS_SYMBOLS_ONLY=""
 
 if [ -n "$GIT_STATUS_SYMBOLS_ONLY" ]; then
     ZSH_THEME_GIT_PROMPT_ADDED="%F{green}✓%f "
@@ -62,6 +62,12 @@ function git_prompt {
     if [ ${#git_info} != 0 ]; then
         echo "(git:${git_info})"
     fi
+}
+
+function ssh_connection {
+  if [[ -n $SSH_CONNECTION ]]; then
+    echo "%{$fg_bold[red]%} (ssh)%{$reset_color%}";
+  fi
 }
 
 # print the error message for a return code
@@ -140,7 +146,7 @@ export PROMPT_EOL_MARK=''
 setopt prompt_subst
 
 PROMPT='$(last_command_status)$(cmd_exec_time)
-$(username)@%{$fg[white]%}%m%{$reset_color%}: %{$fg[blue]%}%~/%{$reset_color%}\
+$(username)@%{$fg[white]%}%m$(ssh_connection)%{$reset_color%}: %{$fg[blue]%}%~/%{$reset_color%}\
  $(git_prompt_info) $(git_prompt_status)
 $(virtualenv_prompt_info)> $(prompt_char) '
 
