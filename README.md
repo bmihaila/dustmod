@@ -3,12 +3,13 @@
 Started with fixes, improvements and modifications to the simple and clean [dst](https://github.com/robbyrussell/oh-my-zsh/blob/master/themes/dst.zsh-theme) theme. In the end it became yet another fully featured zsh theme. Still striving for cleanliness, though!
 
 Features are:
-- the usual username, host, current directory in prompt
-- show if on ssh connection
-- different color and prompt for `root` user
 - neutral color theme with info and prompt split on 2 lines to allow for enough space for info and commands
-- git status. branch-name, repository status in a verbose description or using only symbols (*TODO*: list possible states and symbols)
 - clock on the right
+- the usual: username, host, current directory in prompt
+- different color and prompt for `root` user
+- show if on `ssh` connection
+- git status. branch-name, repository status in a verbose description or using only symbols (*TODO*: list possible states and symbols)
+- python virtual environment
 - show return code of last command if it was not 0. translates the return code to a human readable error message
 - duration of last command for long running commands, i.e. > 20 seconds
 
