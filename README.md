@@ -3,7 +3,7 @@
 Started with fixes, improvements and modifications to the simple and clean [dst](https://github.com/robbyrussell/oh-my-zsh/blob/master/themes/dst.zsh-theme) theme. In the end it became yet another fully featured zsh theme. Still striving for cleanliness, though!
 
 Features are:
-- neutral color theme with info and prompt split on 2 lines to allow for enough space for info and commands
+- [Solarized](https://github.com/altercation/solarized)-inspired color theme with info and prompt split on 2 lines to allow for enough space for info and commands
 - clock on the right
 - the usual: username, host, current directory in prompt
 - different color and prompt for `root` user
