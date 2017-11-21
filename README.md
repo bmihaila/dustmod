@@ -14,7 +14,9 @@ Features are:
 - duration of last command for long running commands, i.e. > 20 seconds
 
 ## Screenshots
-*TODO*: add screenshots
+![Showing all features](https://raw.githubusercontent.com/bmihaila/dustmod/master/screenshots/Screenshot_all_1.png)
+
+Showing Konsole on Linux with [Inconsolata Font](https://fonts.google.com/specimen/Inconsolata) at 11 point.
 
 ## Requirements
 - Zsh - see [zsh.org](http://www.zsh.org/)
