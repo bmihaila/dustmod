@@ -41,7 +41,7 @@ else
 fi
 
 function prompt_char {
-	if [ $UID -eq 0 ]; then 
+    if [ $UID -eq 0 ]; then 
         echo "%{$fg[red]%}#%{$reset_color%}"; 
     else 
         echo "%{$FG[108]%}$%{$reset_color%}"; 
@@ -65,9 +65,15 @@ function git_prompt {
 }
 
 function ssh_connection {
-  if [[ -n $SSH_CONNECTION ]]; then
-    echo "%{$fg_bold[red]%} (ssh)%{$reset_color%}";
-  fi
+    if [[ -n $SSH_CONNECTION ]]; then
+        echo "%{$fg_bold[red]%} (ssh)%{$reset_color%}";
+    fi
+}
+
+function writable_current_dir {
+    if [[ ! -w "${PWD}" ]]; then
+        echo "%{$fg_bold[red]%}✗%{$reset_color%}";
+    fi
 }
 
 # print the error message for a return code
@@ -146,7 +152,7 @@ export PROMPT_EOL_MARK=''
 setopt prompt_subst
 
 PROMPT='$(last_command_status)$(cmd_exec_time)
-$(username)@%{$fg[white]%}%m$(ssh_connection)%{$reset_color%}: %{$fg[blue]%}%~/%{$reset_color%}\
+$(username)@%{$fg[white]%}%m$(ssh_connection)%{$reset_color%}: $(writable_current_dir)%{$fg[blue]%}%~/%{$reset_color%}\
  $(git_prompt_info) $(git_prompt_status)
 $(virtualenv_prompt_info)> $(prompt_char) '
 

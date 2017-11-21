@@ -10,6 +10,7 @@ Features are:
 - show if on `ssh` connection
 - `git` status if inside a repo: shows the branch-name and repository status in a verbose description or using only symbols (✓✶✗↝✩⇡⇣↱⤱)
 - python virtual environment name in prompt
+- show a little `✗` in front of the current path if it is not writable by the user
 - show return code of last command if it was not `0`. additionally translates the return code to a human readable error message
 - duration of last command for long running commands, i.e. > 20 seconds
 
