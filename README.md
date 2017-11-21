@@ -8,9 +8,9 @@ Features are:
 - the usual: username, host, current directory in prompt
 - different color and prompt for `root` user
 - show if on `ssh` connection
-- git status. branch-name, repository status in a verbose description or using only symbols (*TODO*: list possible states and symbols)
-- python virtual environment
-- show return code of last command if it was not 0. translates the return code to a human readable error message
+- `git` status if inside a repo: shows the branch-name and repository status in a verbose description or using only symbols (✓✶✗↝✩⇡⇣↱⤱)
+- python virtual environment name in prompt
+- show return code of last command if it was not `0`. additionally translates the return code to a human readable error message
 - duration of last command for long running commands, i.e. > 20 seconds
 
 ## Screenshots
@@ -28,16 +28,16 @@ Add the following line to your `.zshrc` file depending on your zsh plugin manage
 
 - [oh-my-zsh - adding themes howto](https://github.com/robbyrussell/oh-my-zsh/wiki/Customization#overriding-and-adding-themes)
 
-    ZSH_THEME="dustmod"
+    `ZSH_THEME="dustmod"`
 
 - [antigen](https://github.com/zsh-users/antigen):
 
-    antigen theme bmihaila/dustmod dustmod
+    `antigen theme bmihaila/dustmod dustmod`
 
 - [zgen](https://github.com/tarjoilija/zgen):
 
-    zgen load bmihaila/dustmod
+    `zgen load bmihaila/dustmod`
 
 - [zplug](https://github.com/zplug/zplug):
 
-    zplug "bmihaila/dustmod"
+    `zplug "bmihaila/dustmod"`
