@@ -76,8 +76,14 @@ function writable_current_dir {
     fi
 }
 
+function trailing_slash {
+    if [[ ! "${PWD}" == "/" ]]; then
+        echo "/";
+    fi
+}
+
 # print the error message for a return code
-function error_description { 
+function error_description {
     python -c "from __future__ import print_function; import os; import locale; locale.setlocale(locale.LC_ALL, '');\
     error_desc = os.strerror($1); print(error_desc, end='');"
 }
@@ -109,6 +115,11 @@ function print_human_time {
 
 COMMAND_TRACK_MIN_TIME=20
 
+# Get the intial timestamp for cmd_exec_time (executed before starting a command, see "man zshall")
+function preexec {
+    cmd_timestamp=`date +%s`
+}
+
 # Displays the exec time of the last command if set threshold was exceeded
 function cmd_exec_time {
     local stop=`date +%s`
@@ -121,11 +132,6 @@ function cmd_exec_time {
         echo -n "%{$FG[240]%}"
         echo -n "⌚ Command execution took ${time_pretty} %{$reset_color%}"
     fi
-}
-
-# Get the intial timestamp for cmd_exec_time (executed before starting a command, see "man zshall")
-function preexec {
-    cmd_timestamp=`date +%s`
 }
 
 # disables prompt mangling in virtual_env/bin/activate
@@ -152,7 +158,8 @@ export PROMPT_EOL_MARK=''
 setopt prompt_subst
 
 PROMPT='$(last_command_status)$(cmd_exec_time)
-$(username)@%{$fg[white]%}%m$(ssh_connection)%{$reset_color%}: $(writable_current_dir)%{$fg[blue]%}%~/%{$reset_color%}\
+$(username)@%{$fg[white]%}%m$(ssh_connection)%{$reset_color%}: $(writable_current_dir)\
+%{$fg[blue]%}%~$(trailing_slash)%{$reset_color%}\
  $(git_prompt_info) $(git_prompt_status)
 $(virtualenv_prompt_info)> $(prompt_char) '
 
