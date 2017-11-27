@@ -10,7 +10,7 @@
 # %(?..) => prompt conditional - %(condition.true.false)
 
 ZSH_THEME_GIT_PROMPT_PREFIX="(git:%{$fg[green]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%b%{$reset_color%}):"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%b%{$reset_color%})"
 ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[red]%}*"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
@@ -136,7 +136,7 @@ function cmd_exec_time {
 
 # disables prompt mangling in virtual_env/bin/activate
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX="(virtualenv:"
+ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX="(venv:"
 ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX=")"
 
 function virtualenv_prompt_info {
@@ -158,7 +158,7 @@ export PROMPT_EOL_MARK=''
 setopt prompt_subst
 
 PROMPT='$(last_command_status)$(cmd_exec_time)
-$(username)@%{$fg[white]%}%m$(ssh_connection)%{$reset_color%}: $(writable_current_dir)\
+$(username)@%{$fg[white]%}%m$(ssh_connection)%{$reset_color%} $(writable_current_dir)\
 %{$fg[blue]%}%~$(trailing_slash)%{$reset_color%}\
  $(git_prompt_info) $(git_prompt_status)
 $(virtualenv_prompt_info)$(prompt_prefix)'
