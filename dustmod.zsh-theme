@@ -40,11 +40,11 @@ else
     ZSH_THEME_GIT_PROMPT_DIVERGED="%F{green}⤱diverged%f "
 fi
 
-function prompt_char {
+function prompt_prefix {
     if [ $UID -eq 0 ]; then 
-        echo "%{$fg[red]%}#%{$reset_color%}"; 
+        echo "%{$fg[red]%}#❯ %{$reset_color%}";
     else 
-        echo "%{$FG[108]%}$%{$reset_color%}"; 
+        echo "%{$FG[108]%}$❯ %{$reset_color%}";
     fi
 }
 
@@ -161,7 +161,7 @@ PROMPT='$(last_command_status)$(cmd_exec_time)
 $(username)@%{$fg[white]%}%m$(ssh_connection)%{$reset_color%}: $(writable_current_dir)\
 %{$fg[blue]%}%~$(trailing_slash)%{$reset_color%}\
  $(git_prompt_info) $(git_prompt_status)
-$(virtualenv_prompt_info)> $(prompt_char) '
+$(virtualenv_prompt_info)$(prompt_prefix)'
 
 # show the time on the right prompt
 # Note that the unicode ⌚⏰ symbols seem to confuse zsh about the length, 
