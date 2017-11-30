@@ -166,7 +166,7 @@ setopt prompt_subst
 
 # needs single quotes to be evaluated in the prompt each time with latest state values
 HEADLINE_LEFT='$(username)@%{$fg[white]%}%m$(ssh_connection)%{$reset_color%} \
-$(writable_current_dir) %{$fg[blue]%}%~$(trailing_dir_slash)%{$reset_color%} $(git_prompt_info) $(git_prompt_status)'
+$(writable_current_dir)%{$fg[blue]%}%~$(trailing_dir_slash)%{$reset_color%} $(git_prompt_info) $(git_prompt_status)'
 
 # Note that the following unicode ⌚⏰ symbols seem to confuse zsh about the length, 
 CLOCK='%{$fg[blue]%}%{$fg[blue]%}%* ⏲ %{$reset_color%}'
