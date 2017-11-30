@@ -1,20 +1,12 @@
-# List of prompt format strings:
-#
-# prompt:
-# %F => color dict
-# %f => reset color
-# %~ => current path
-# %* => time
-# %n => username
-# %m => shortname host
-# %(?..) => prompt conditional - %(condition.true.false)
+# OPTIONS
+GIT_STATUS_SYMBOLS_ONLY=""
+COMMAND_TRACK_MIN_TIME=20
+
 
 ZSH_THEME_GIT_PROMPT_PREFIX="(git:%{$fg[green]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%b%{$reset_color%})"
 ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[red]%}*"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
-
-GIT_STATUS_SYMBOLS_ONLY=""
 
 if [ -n "$GIT_STATUS_SYMBOLS_ONLY" ]; then
     ZSH_THEME_GIT_PROMPT_ADDED="%F{green}✓%f "
@@ -113,7 +105,6 @@ function print_human_time {
     echo -n "$result"
 }
 
-COMMAND_TRACK_MIN_TIME=20
 
 # Get the intial timestamp for cmd_exec_time (executed before starting a command, see "man zshall")
 function preexec {
@@ -178,7 +169,7 @@ function columns_filler_space {
 
 # prevent percentage showing up if output doesn't end with a newline
 export PROMPT_EOL_MARK=''
-
+# expand the variables, escape code and functions in the prompt
 setopt prompt_subst
 
 ## putting it all togeher
