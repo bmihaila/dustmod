@@ -76,7 +76,7 @@ function writable_current_dir {
     fi
 }
 
-function trailing_slash {
+function trailing_dir_slash {
     if [[ ! "${PWD}" == "/" ]]; then
         echo "/";
     fi
@@ -152,17 +152,51 @@ function virtualenv_prompt_info {
     fi
 }
 
+# taken from the "Bureau" oh-my-zsh theme
+function columns_filler_space {
+    # need to perform the expansion for the string
+    # to call the functions there and expand the escape sequences
+    local STRING=$1
+    STRING=${(e)STRING}  # expand parameters, function calls and arithmetic expressions
+#    STRING=$(print -Pr $STRING)  # this also expands the escape codes for colors which breaks below length calculation
+    # see https://stackoverflow.com/questions/10564314/count-length-of-user-visible-string-for-zsh-prompt
+    # for an explanation of below length computation
+    local zero='%([BSUbfksu]|([FK]|){*})'
+    local STRING_LENGTH=${#${(S%%)STRING//$~zero/}}
+#    cleaned_string=$(echo -n $STRING | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
+#    STRING_LENGTH=$#cleaned_string
+    local SPACES=""
+    ((LENGTH = ${COLUMNS} - $STRING_LENGTH - 1))
+
+    # TODO: handle negative lengths, i.e. if the strings are too long for the columns
+    for i in {0..$LENGTH}; do
+      SPACES="$SPACES "
+    done
+
+    echo $SPACES
+}
+
 # prevent percentage showing up if output doesn't end with a newline
 export PROMPT_EOL_MARK=''
 
 setopt prompt_subst
 
-PROMPT='$(last_command_status)$(cmd_exec_time)
-$(username)@%{$fg[white]%}%m$(ssh_connection)%{$reset_color%} $(writable_current_dir)\
-%{$fg[blue]%}%~$(trailing_slash)%{$reset_color%}\
- $(git_prompt_info) $(git_prompt_status)
-$(virtualenv_prompt_info)$(prompt_prefix)'
+## putting it all togeher
 
-# show the time on the right prompt
-# Note that the unicode ⌚⏰ symbols seem to confuse zsh about the length, 
-RPROMPT='%{$fg[blue]%}⏲ %{$fg[magenta]%}%*%{$reset_color%}'
+# needs single quotes to be evaluated in the prompt each time with latest state values
+HEADLINE_LEFT='$(username)@%{$fg[white]%}%m$(ssh_connection)%{$reset_color%} \
+$(writable_current_dir) %{$fg[blue]%}%~$(trailing_dir_slash)%{$reset_color%} $(git_prompt_info) $(git_prompt_status)'
+
+# Note that the following unicode ⌚⏰ symbols seem to confuse zsh about the length, 
+CLOCK='%{$fg[blue]%}%{$fg[blue]%}%* ⏲ %{$reset_color%}'
+
+COMMANDLINE='$(virtualenv_prompt_info)$(prompt_prefix)'
+
+SPACER='$(columns_filler_space $HEADLINE_LEFT$CLOCK)'
+
+PROMPT="$HEADLINE_LEFT$SPACER$CLOCK
+$COMMANDLINE"
+
+# nothing for now in the right prompt.
+# showing e.g. the CLOCK there puts it on the line of the commands
+#RPROMPT='$CLOCK'
