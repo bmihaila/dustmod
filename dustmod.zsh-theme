@@ -143,6 +143,7 @@ function columns_filler_space {
     STRING=${(e)STRING}  # expand parameters, function calls and arithmetic expressions
 #    STRING=$(print -Pr $STRING)  # this also expands the escape codes for colors which breaks below length calculation
     # see https://stackoverflow.com/questions/10564314/count-length-of-user-visible-string-for-zsh-prompt
+    # and https://stackoverflow.com/questions/40827667/zsh-length-of-a-string-with-possibly-unicode-and-escape-characters
     # for an explanation of below length computation
     local zero='%([BSUbfksu]|([FK]|){*})'
     local STRING_LENGTH=${#${(S%%)STRING//$~zero/}}
