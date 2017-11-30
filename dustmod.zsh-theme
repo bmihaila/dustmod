@@ -3,6 +3,7 @@ GIT_STATUS_SYMBOLS_ONLY=""
 COMMAND_TRACK_MIN_TIME=20
 
 
+# requires git.zsh lib
 ZSH_THEME_GIT_PROMPT_PREFIX="(git:%{$fg[green]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%b%{$reset_color%})"
 ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[red]%}*"
@@ -45,14 +46,6 @@ function username {
         echo "%{$fg[red]%}%n%{$reset_color%}"; 
     else 
         echo "%{$FG[108]%}%n%{$reset_color%}"; 
-    fi
-}
-
-# unused because the style variables above achieve the same
-function git_prompt {
-    local git_info=$(git_prompt_info)
-    if [ ${#git_info} != 0 ]; then
-        echo "(git:${git_info})"
     fi
 }
 
@@ -119,7 +112,6 @@ function cmd_exec_time {
     if [ $elapsed -gt $COMMAND_TRACK_MIN_TIME ]; then
         time_pretty=$(print_human_time $elapsed)
         echo # add a newline
-#        echo -n "%{$fg[yellow]%}"
         echo -n "%{$FG[240]%}"
         echo -n "⌚ Command execution took ${time_pretty} %{$reset_color%}"
     fi
@@ -143,7 +135,7 @@ function virtualenv_prompt_info {
     fi
 }
 
-# taken from the "Bureau" oh-my-zsh theme
+# idea from the "Bureau" oh-my-zsh theme
 function columns_filler_space {
     # need to perform the expansion for the string
     # to call the functions there and expand the escape sequences
@@ -154,8 +146,6 @@ function columns_filler_space {
     # for an explanation of below length computation
     local zero='%([BSUbfksu]|([FK]|){*})'
     local STRING_LENGTH=${#${(S%%)STRING//$~zero/}}
-#    cleaned_string=$(echo -n $STRING | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
-#    STRING_LENGTH=$#cleaned_string
     local SPACES=""
     ((LENGTH = ${COLUMNS} - $STRING_LENGTH - 1))
 
@@ -191,3 +181,4 @@ $COMMANDLINE"
 # nothing for now in the right prompt.
 # showing e.g. the CLOCK there puts it on the line of the commands
 #RPROMPT='$CLOCK'
+RPROMPT=''
