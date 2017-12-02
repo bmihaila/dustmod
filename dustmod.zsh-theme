@@ -4,9 +4,9 @@ COMMAND_TRACK_MIN_TIME=20
 
 
 # requires git.zsh lib
-ZSH_THEME_GIT_PROMPT_PREFIX="(git:%{$fg[green]%}"
+ZSH_THEME_GIT_PROMPT_PREFIX="(git:%F{green}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%b%{$reset_color%})"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[red]%}*"
+ZSH_THEME_GIT_PROMPT_DIRTY="*"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
 if [ -n "$GIT_STATUS_SYMBOLS_ONLY" ]; then
@@ -165,6 +165,7 @@ setopt prompt_subst
 
 ## putting it all togeher
 
+PREV_COMMAND_INFO='$(last_command_status)$(cmd_exec_time)'
 # needs single quotes to be evaluated in the prompt each time with latest state values
 HEADLINE_LEFT='$(username)@%{$fg[white]%}%m$(ssh_connection)%{$reset_color%} \
 $(writable_current_dir)%{$fg[blue]%}%~$(trailing_dir_slash)%{$reset_color%} $(git_prompt_info) $(git_prompt_status)'
@@ -176,7 +177,8 @@ COMMANDLINE='$(virtualenv_prompt_info)$(prompt_prefix)'
 
 SPACER='$(columns_filler_space $HEADLINE_LEFT$CLOCK)'
 
-PROMPT="$HEADLINE_LEFT$SPACER$CLOCK
+PROMPT="$PREV_COMMAND_INFO
+$HEADLINE_LEFT$SPACER$CLOCK
 $COMMANDLINE"
 
 # nothing for now in the right prompt.
