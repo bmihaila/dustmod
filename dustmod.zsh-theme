@@ -5,8 +5,9 @@ COMMAND_TRACK_MIN_TIME=20
 
 # requires git.zsh lib
 ZSH_THEME_GIT_PROMPT_PREFIX="(git:%F{green}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%b%{$reset_color%})"
-ZSH_THEME_GIT_PROMPT_DIRTY="*"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%})"
+# showing dirty/clean is redundant, given the individual symbols below. So avoid that noise
+ZSH_THEME_GIT_PROMPT_DIRTY=""
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
 if [ -n "$GIT_STATUS_SYMBOLS_ONLY" ]; then
