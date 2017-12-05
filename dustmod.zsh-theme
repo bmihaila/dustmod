@@ -1,6 +1,11 @@
-# OPTIONS
-GIT_STATUS_SYMBOLS_ONLY=""
-COMMAND_TRACK_MIN_TIME=20
+# Options for the theme look
+
+# show the runtime of the last command if it took longer to execute than this
+COMMAND_TRACK_MIN_TIME_SECS=20
+# show a long description of the git status, e.g. 'modified' or only symbols
+GIT_STATUS_LONG_DESCRIPTION="true"
+# show the 'username@hostname' always or only when on remote machines
+USER_HOST_ALWAYS="true"
 
 
 # requires git.zsh lib
@@ -10,18 +15,7 @@ ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%})"
 ZSH_THEME_GIT_PROMPT_DIRTY=""
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
-if [ -n "$GIT_STATUS_SYMBOLS_ONLY" ]; then
-    ZSH_THEME_GIT_PROMPT_ADDED="%F{green}✓%f "
-    ZSH_THEME_GIT_PROMPT_MODIFIED="%F{blue}✶%f "
-    ZSH_THEME_GIT_PROMPT_DELETED="%F{red}✗%f "
-    ZSH_THEME_GIT_PROMPT_RENAMED="%F{magenta}↝%f "
-    ZSH_THEME_GIT_PROMPT_UNMERGED="%F{yellow}%f "
-    ZSH_THEME_GIT_PROMPT_UNTRACKED="%F{cyan}✩%f "
-    ZSH_THEME_GIT_PROMPT_AHEAD="%F{red}⇡%f "
-    ZSH_THEME_GIT_PROMPT_BEHIND="%F{green}⇣%f "
-    ZSH_THEME_GIT_PROMPT_STASHED="%F{green}↱%f "
-    ZSH_THEME_GIT_PROMPT_DIVERGED="%F{green}⤱%f "
-else
+if [[ "$GIT_STATUS_LONG_DESCRIPTION" == "true" ]]; then
     ZSH_THEME_GIT_PROMPT_ADDED="%F{green}✓added%f "
     ZSH_THEME_GIT_PROMPT_MODIFIED="%F{blue}✶modified%f "
     ZSH_THEME_GIT_PROMPT_DELETED="%F{red}✗deleted%f "
@@ -32,6 +26,17 @@ else
     ZSH_THEME_GIT_PROMPT_BEHIND="%F{green}⇣behind%f "
     ZSH_THEME_GIT_PROMPT_STASHED="%F{green}↱stashed%f "
     ZSH_THEME_GIT_PROMPT_DIVERGED="%F{green}⤱diverged%f "
+else
+    ZSH_THEME_GIT_PROMPT_ADDED="%F{green}✓%f "
+    ZSH_THEME_GIT_PROMPT_MODIFIED="%F{blue}✶%f "
+    ZSH_THEME_GIT_PROMPT_DELETED="%F{red}✗%f "
+    ZSH_THEME_GIT_PROMPT_RENAMED="%F{magenta}↝%f "
+    ZSH_THEME_GIT_PROMPT_UNMERGED="%F{yellow}%f "
+    ZSH_THEME_GIT_PROMPT_UNTRACKED="%F{cyan}✩%f "
+    ZSH_THEME_GIT_PROMPT_AHEAD="%F{red}⇡%f "
+    ZSH_THEME_GIT_PROMPT_BEHIND="%F{green}⇣%f "
+    ZSH_THEME_GIT_PROMPT_STASHED="%F{green}↱%f "
+    ZSH_THEME_GIT_PROMPT_DIVERGED="%F{green}⤱%f "
 fi
 
 function prompt_prefix {
@@ -53,6 +58,12 @@ function username {
 function ssh_connection {
     if [[ -n $SSH_CONNECTION ]]; then
         echo "%{$fg_bold[red]%} (ssh)%{$reset_color%}";
+    fi
+}
+
+function user_and_host {
+    if [[ "$USER_HOST_ALWAYS" == "true" || -n $SSH_CONNECTION ]]; then
+        echo "$(username)@%{$fg[white]%}%m$(ssh_connection)%{$reset_color%} "
     fi
 }
 
@@ -110,7 +121,7 @@ function cmd_exec_time {
     local stop=`date +%s`
     local start=${cmd_timestamp:-$stop}
     let local elapsed=$stop-$start
-    if [ $elapsed -gt $COMMAND_TRACK_MIN_TIME ]; then
+    if [ $elapsed -gt $COMMAND_TRACK_MIN_TIME_SECS ]; then
         time_pretty=$(print_human_time $elapsed)
         echo # add a newline
         echo -n "%{$FG[240]%}"
@@ -168,8 +179,8 @@ setopt prompt_subst
 
 PREV_COMMAND_INFO='$(last_command_status)$(cmd_exec_time)'
 # needs single quotes to be evaluated in the prompt each time with latest state values
-HEADLINE_LEFT='$(username)@%{$fg[white]%}%m$(ssh_connection)%{$reset_color%} \
-$(writable_current_dir)%{$fg[blue]%}%~$(trailing_dir_slash)%{$reset_color%} $(git_prompt_info) $(git_prompt_status)'
+HEADLINE_LEFT='$(user_and_host)$(writable_current_dir)%{$fg[blue]%}%~$(trailing_dir_slash)%{$reset_color%} \
+$(git_prompt_info) $(git_prompt_status)'
 
 # Note that the following unicode ⌚⏰ symbols seem to confuse zsh about the length, 
 CLOCK='%{$fg[blue]%}%{$fg[blue]%}%* ⏲ %{$reset_color%}'
