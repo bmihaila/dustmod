@@ -39,6 +39,15 @@ else
     ZSH_THEME_GIT_PROMPT_DIVERGED="%F{green}⤱%f "
 fi
 
+functions git_prompt_info &> /dev/null || git_prompt_info(){}
+functions git_prompt_status &> /dev/null || git_prompt_status(){}
+
+function git_info {
+    if {echo $fpath | grep -q "plugins/git"}; then
+        echo " $(git_prompt_info) $(git_prompt_status)"
+    fi
+}
+
 function prompt_prefix {
     if [ $UID -eq 0 ]; then 
         echo "%{$fg[red]%}#❯ %{$reset_color%}";
@@ -67,15 +76,18 @@ function user_and_host {
     fi
 }
 
-function writable_current_dir {
+function is_current_dir_writable {
     if [[ ! -w "${PWD}" ]]; then
         echo "%{$fg_bold[red]%}✗%{$reset_color%}";
     fi
 }
 
-function trailing_dir_slash {
-    if [[ ! "${PWD}" == "/" ]]; then
-        echo "/";
+function current_dir {
+    # do not show a trailing slash in the root dir
+    if [[ "${PWD}" == "/" ]]; then
+        echo "%{$fg[blue]%}%~%{$reset_color%}"
+    else
+        echo "%{$fg[blue]%}%~/%{$reset_color%}"
     fi
 }
 
@@ -179,8 +191,7 @@ setopt prompt_subst
 
 PREV_COMMAND_INFO='$(last_command_status)$(cmd_exec_time)'
 # needs single quotes to be evaluated in the prompt each time with latest state values
-HEADLINE_LEFT='$(user_and_host)$(writable_current_dir)%{$fg[blue]%}%~$(trailing_dir_slash)%{$reset_color%} \
-$(git_prompt_info) $(git_prompt_status)'
+HEADLINE_LEFT='$(user_and_host)$(is_current_dir_writable)$(current_dir)$(git_info)'
 
 # Note that the following unicode ⌚⏰ symbols seem to confuse zsh about the length, 
 CLOCK='%{$fg[blue]%}%{$fg[blue]%}%* ⏲ %{$reset_color%}'
