@@ -1,11 +1,11 @@
-# Options for the theme look
+# User tweakable options for the theme look
 
 # show the runtime of the last command if it took longer to execute than this
-COMMAND_TRACK_MIN_TIME_SECS=20
+DUSTMOD_COMMAND_TRACK_MIN_TIME_SECS=20
 # show a long description of the git status, e.g. 'modified' or only symbols
-GIT_STATUS_LONG_DESCRIPTION="true"
+DUSTMOD_GIT_STATUS_LONG_DESCRIPTION="true"
 # show the 'username@hostname' always or only when on remote machines
-USER_HOST_ALWAYS="true"
+DUSTMOD_USER_HOST_ALWAYS="true"
 
 
 # requires git.zsh lib
@@ -15,7 +15,7 @@ ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%})"
 ZSH_THEME_GIT_PROMPT_DIRTY=""
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
-if [[ "$GIT_STATUS_LONG_DESCRIPTION" == "true" ]]; then
+if [[ "$DUSTMOD_GIT_STATUS_LONG_DESCRIPTION" == "true" ]]; then
     ZSH_THEME_GIT_PROMPT_ADDED="%F{green}✓added%f "
     ZSH_THEME_GIT_PROMPT_MODIFIED="%F{blue}✶modified%f "
     ZSH_THEME_GIT_PROMPT_DELETED="%F{red}✗deleted%f "
@@ -39,8 +39,10 @@ else
     ZSH_THEME_GIT_PROMPT_DIVERGED="%F{green}⤱%f "
 fi
 
-functions git_prompt_info &> /dev/null || git_prompt_info(){}
-functions git_prompt_status &> /dev/null || git_prompt_status(){}
+# make sure we have those functions when they are called below
+# TODO: the if-test takes care of it and whitespace would be printed anyways
+#functions git_prompt_info &> /dev/null || git_prompt_info(){}
+#functions git_prompt_status &> /dev/null || git_prompt_status(){}
 
 function git_info {
     if {echo $fpath | grep -q "plugins/git"}; then
@@ -71,7 +73,7 @@ function ssh_connection {
 }
 
 function user_and_host {
-    if [[ "$USER_HOST_ALWAYS" == "true" || -n $SSH_CONNECTION ]]; then
+    if [[ "$DUSTMOD_USER_HOST_ALWAYS" == "true" || -n $SSH_CONNECTION ]]; then
         echo "$(username)@%{$fg[white]%}%m$(ssh_connection)%{$reset_color%} "
     fi
 }
@@ -133,7 +135,7 @@ function cmd_exec_time {
     local stop=`date +%s`
     local start=${cmd_timestamp:-$stop}
     let local elapsed=$stop-$start
-    if [ $elapsed -gt $COMMAND_TRACK_MIN_TIME_SECS ]; then
+    if [ $elapsed -gt $DUSTMOD_COMMAND_TRACK_MIN_TIME_SECS ]; then
         time_pretty=$(print_human_time $elapsed)
         echo # add a newline
         echo -n "%{$FG[240]%}"
