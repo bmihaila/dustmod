@@ -6,14 +6,6 @@ DUSTMOD_COMMAND_TRACK_MIN_TIME_SECS=20
 DUSTMOD_GIT_STATUS_LONG_DESCRIPTION="true"
 # show the 'username@hostname' always or only when on remote machines
 DUSTMOD_USER_HOST_ALWAYS="true"
-# EXPERIMENTAL: show identation before the left side prompt
-DUSTMOD_PROMPT_INDENT="true"
-
-if [[ "$DUSTMOD_PROMPT_INDENT" == "true" ]]; then
-    prompt_indent=' '
-else
-    prompt_indent=''
-fi
 
 # requires git.zsh lib
 ZSH_THEME_GIT_PROMPT_PREFIX="(git:%F{green}"
@@ -200,7 +192,7 @@ setopt prompt_subst
 
 PREV_COMMAND_INFO='$(last_command_status)$(cmd_exec_time)'
 # needs single quotes to be evaluated in the prompt each time with latest state values
-HEADLINE_LEFT='$prompt_indent$(user_and_host)$(is_current_dir_writable)$(current_dir)$(git_info)'
+HEADLINE_LEFT='$(user_and_host)$(is_current_dir_writable)$(current_dir)$(git_info)'
 
 # Note that the following unicode ⌚⏰ symbols seem to confuse zsh about the length, 
 CLOCK='%{$fg[blue]%}%{$fg[blue]%}%* ⏲ %{$reset_color%}'
@@ -211,7 +203,7 @@ SPACER='$(columns_filler_space $HEADLINE_LEFT$CLOCK)'
 
 PROMPT="$PREV_COMMAND_INFO
 $HEADLINE_LEFT$SPACER$CLOCK
-$prompt_indent$COMMANDLINE"
+$COMMANDLINE"
 
 # nothing for now in the right prompt.
 # showing e.g. the CLOCK there puts it on the line of the commands
