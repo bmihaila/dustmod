@@ -1,11 +1,11 @@
 # User tweakable options for the theme look
 
 # show the runtime of the last command if it took longer to execute than this
-DUSTMOD_COMMAND_TRACK_MIN_TIME_SECS=20
+DUSTMOD_COMMAND_TRACK_MIN_TIME_SECS=${DUSTMOD_COMMAND_TRACK_MIN_TIME_SECS:=20}
 # show a long description of the git status, e.g. 'modified' or only symbols
-DUSTMOD_GIT_STATUS_LONG_DESCRIPTION="true"
+DUSTMOD_GIT_STATUS_LONG_DESCRIPTION=${DUSTMOD_GIT_STATUS_LONG_DESCRIPTION:="true"}
 # show the 'username@hostname' always or only when on remote machines
-DUSTMOD_USER_HOST_ALWAYS="true"
+DUSTMOD_USER_HOST_ALWAYS="${DUSTMOD_USER_HOST_ALWAYS:=true}"
 
 # requires git.zsh lib
 ZSH_THEME_GIT_PROMPT_PREFIX="(git:%F{green}"
@@ -39,7 +39,7 @@ else
 fi
 
 # make sure we have those functions when they are called below
-# TODO: the if-test takes care of it and whitespace would be printed anyways
+# below is removed because the if-test takes care of it and whitespace would be printed anyways
 #functions git_prompt_info &> /dev/null || git_prompt_info(){}
 #functions git_prompt_status &> /dev/null || git_prompt_status(){}
 
